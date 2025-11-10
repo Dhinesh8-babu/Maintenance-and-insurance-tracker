@@ -1,0 +1,5 @@
+{
+  "name": "Copy of Fairental: Insurance & Maintenance Tracker",
+  "description": "An application for Fairental to track vehicle maintenance schedules and insurance renewal dates. It supports CRUD operations, bulk import from Excel, and features AI-powered note summarization.",
+  "requestFramePermissions": []
+}
