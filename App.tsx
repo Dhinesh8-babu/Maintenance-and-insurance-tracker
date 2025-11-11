@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Vehicle, VehicleFilter, ExportCriteria, SortKey, SortDirection } from './types';
 import { getVehicles, addVehicle, updateVehicle, deleteVehicle, batchAddVehicles } from './services/supabaseService';
@@ -121,11 +122,15 @@ const App: React.FC = () => {
         const reader = new FileReader();
         reader.onload = async (e) => {
             try {
-                const data = new Uint8Array(e.target?.result as ArrayBuffer);
+                if (!e.target?.result) {
+                    setNotification({ message: 'Error reading file.', type: 'error' });
+                    return;
+                }
+                const data = new Uint8Array(e.target.result as ArrayBuffer);
                 const workbook = xlsx.read(data, { type: 'array' });
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
-                const json = xlsx.utils.sheet_to_json(worksheet, { cellDates: true }) as any[];
+                const json: any[] = xlsx.utils.sheet_to_json(worksheet, { cellDates: true });
 
                 const newVehicles: Omit<Vehicle, 'id' | 'created_at' | 'updated_at'>[] = json.map(row => {
                     const normalizedRow: {[key: string]: any} = {};
