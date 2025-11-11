@@ -19,7 +19,7 @@ export const getVehicles = async (): Promise<Vehicle[]> => {
         console.error('Error fetching vehicles:', error);
         throw error;
     }
-    return data as Vehicle[];
+    return data || [];
 };
 
 export const addVehicle = async (vehicle: Omit<Vehicle, 'id' | 'created_at' | 'updated_at'>) => {
@@ -62,7 +62,6 @@ export const deleteVehicle = async (id: string) => {
 
     if (error) {
         console.error('Error deleting vehicle:', error);
-        throw error;
     }
 };
 
